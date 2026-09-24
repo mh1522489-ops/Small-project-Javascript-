@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <style>
+        body{
+    width:100vw;
+    height:100vh;
+
+    background-image:linear-gradient(to right,coral 1px ,transparent 1px),linear-gradient(to bottom,black 1px,transparent 1px);
+    background-size:50px 50px
+}
+
+#timer{
+    position:absolute;
+    bottom:50%;
+    text-align:center;
+    opacity:0;
+    animation:timer .5s forwards;
+}
+@keyframes timer{
+    to{
+        opacity:1;
+    }
+}
+ .titel{
+    text-align:center;
+    font-style:italic;
+    opacity:0;
+    animation:titel .5s forwards;
+    transform:translatey(10px);
+}
+@keyframes titel{
+    to{
+        opacity:1;
+        transform:translatey(0px);
+    }
+}
+.expline{
+    text-align:center;
+    font-family:serif;
+    line-height:2;
+    font-style:italic;
+    
+}
+    </style>
+    
+        <title>Timer</title>
+    </head>
+    <body>
+    <h1 id="timer"></h1>
+    
+    
+        <script>
+            function rundayminasMonth(){
+    let time = new Date();
+    const today = time.getDate();
+    const year = time.getFullYear();
+    const month = time.getMonth();
+    let lastDayOfMonth = new Date(year,month + 1,0);
+    let tomonth = lastDayOfMonth.getDate();
+    return tomonth - today;
+}
+let outputofrundayminasMonth = rundayminasMonth();
+function explineTime(output){
+let date = new Date()
+   let expline = document.createElement("p");
+   let titel = document.createElement("h1")
+   titel.className = "titel";
+   titel.textContent = `hi in day ${date.getDate()}/${date.getFullYear()} `
+   expline.textContent = `we calculated the number of days in the month to find out how many days are left until the end of this month Stay ${output}`
+   expline.className = "expline";
+   document.body.append(titel);
+   document.body.append(expline)
+}
+explineTime(outputofrundayminasMonth)
+function gettimeraning(){
+    const now = new Date();
+    let year = now.getFullYear()
+    let month = now.getMonth();
+    let nextMonth = new Date (year,month+1,1);
+    let difference = nextMonth - now
+    return difference;
+}
+const resultfromgettimeraning = gettimeraning()
+  function formatHettimeraning(millSec){
+     const day = Math.floor(millSec / (1000 * 60 * 60 * 24));
+     const hours = Math.floor(millSec / (1000 * 60 * 60)) % 24;
+     const minutes = Math.floor(millSec / (1000 * 60)) % 60;
+     const seconds = Math.floor(millSec / 1000) % 60;
+     return {
+         day,hours,minutes,seconds
+     }
+  }
+  formatHettimeraning(resultfromgettimeraning)
+let timer = document.getElementById("timer");
+ function updatetimer(){
+     
+    const result = gettimeraning();
+    const time = formatHettimeraning(result);
+     
+    timer.textContent =
+        `${time.day} Days | ${time.hours} Hours | ` +
+        `${time.minutes} Minutes | ${time.seconds} Seconds`;
+        
+ }
+ updatetimer()
+ setInterval(updatetimer,1000)
+        </script>
+    </body>
+  </html>
