@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JavaScript Product Management Class</title>
+        <style>
+         .msgtag{
+   font-size:20px;
+   text-align:center;
+   font-family:serif;
+   opacity:0;
+   animation:msg 0.5s forwards;
+}
+@keyframes msg{
+    to{
+        opacity:1;
+    }
+}   
+        </style>
+    </head>
+    <body>
+        <p id="msg"></p>
+        
+        <script>
+         class product{
+constructor(name,price,quantity,discount,minQuantity){
+
+if (price < 0) {
+throw new RangeError("Price cannot be negative");
+}
+
+if (quantity < 0) {
+throw new RangeError("Quantity cannot be negative");
+}
+
+if (discount < 0 || discount > 100) {
+throw new RangeError("Discount must be between 0% and 100%");
+}
+
+if (minQuantity < 0) {
+throw new RangeError("Minimum quantity cannot be negative");
+}
+
+
+this.name = name;
+this.price = price;
+this.quantity = quantity;
+this.discountvalue = discount;
+this.minQuantity = minQuantity;
+
+}
+getFinalPrice(){
+
+
+const finalprice = this.price - (this.price * this.discountvalue / 100) ;
+return finalprice;
+
+}
+calc(){
+
+return this.getFinalPrice() * this.quantity;
+
+}
+
+updatePrice(newPrice){
+    if(newPrice <= 0){
+
+    throw new RangeError("new price should be over 0$");
+}
+this.price = newPrice;
+}
+
+
+addMoreQuantity(plus){
+if(plus === 0 || plus < 0){
+    throw new RangeError("if you went to add more quantity you sould add A normal quantity `);
+}
+return this.quantity = this.quantity + plus;
+}
+
+sellquantity(sell){
+if(sell > this.quantity){
+throw new RangeError("Sell quantity should be smaller than available quantity");
+
+}
+return this.quantity = this.quantity - sell;
+
+}
+checkStock(){
+if(this.quantity <= this.minQuantity){
+
+return `⚠️ Low stock!`
+
+}else {
+return `normal stock`
+}
+}
+updateDiscount(newDiscount){
+    if(newDiscount < 0 || newDiscount > 100){
+        throw new RangeError("newdiscount should be betwean 0 to 100");
+    }
+    this.discountvalue = newDiscount;
+}
+msg(){
+let msgTag =    document.getElementById("msg");
+  msgTag.textContent = `
+  name:${this.name},
+  
+orignal price:${this.price},
+
+ final price:${this.getFinalPrice()},
+ 
+  quantity:${this.quantity},
+  
+  discount:${this.discountvalue}%
+  ,
+  
+  minQuantity:${this.minQuantity}
+  Available:${this.isAvailable()}
+  `;
+  msgTag.className = "msgtag"  
+}
+isAvailable(){
+    if(this.quantity === 0){
+        return `Out of stock`
+    }else {
+        return `Available`
+    }
+}
+}
+
+let product1 = new product("headphones",50,10,10,1)
+
+console.log(product1.checkStock())
+
+product1.updatePrice(10);
+product1.sellquantity(10)
+product1.addMoreQuantity(5);
+product1.updateDiscount(10);
+console.log(product1.calc());
+product1.msg()
+console.log(product1.isAvailable())
+   
+        </script>
+    </body>
+</html>
